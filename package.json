@@ -1,0 +1,15 @@
+{
+  "name": "ai-programming-book-builder",
+  "version": "1.0.0",
+  "description": "A tool to merge AI programming book content into a single markdown file",
+  "main": "build-book.js",
+  "scripts": {
+    "start": "node build-book.js"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "path": "^0.12.7"
+  },
+  "author": "",
+  "license": "MIT"
+}
