@@ -4,7 +4,14 @@
   "description": "A tool to merge AI programming book content into a single markdown file",
   "main": "build-book.js",
   "scripts": {
-    "start": "node build-book.js"
+    "start": "node build-book.js",
+    "convert:styled": "mkdir -p output && pandoc \"chapters/01.1-什么是AI编程.md\" -o \"output/temp.docx\" -f markdown -t docx --standalone && python3 fix-docx-styles.py \"output/temp.docx\" \"output/01.1-什么是AI编程-styled.docx\" && rm \"output/temp.docx\"",
+    "convert:test": "mkdir -p output && pandoc \"create-reference-doc.md\" -o \"output/temp-test.docx\" -f markdown -t docx --standalone && python3 fix-docx-styles.py \"output/temp-test.docx\" \"output/样式测试文档-styled.docx\" && rm \"output/temp-test.docx\"",
+    "debug:styles": "mkdir -p output && pandoc \"create-reference-doc.md\" -o \"output/debug-test.docx\" -f markdown -t docx --standalone && python3 debug-docx-styles.py \"output/debug-test.docx\"",
+    "verify:styles": "python3 debug-docx-styles.py \"output/样式测试文档-styled.docx\"",
+    "convert:all-styled": "mkdir -p output && for file in chapters/*.md; do basename=\"$(basename \"$file\" .md)\"; pandoc \"$file\" -o \"output/temp-$basename.docx\" -f markdown -t docx --standalone && python3 fix-docx-styles.py \"output/temp-$basename.docx\" \"output/$basename-styled.docx\" && rm \"output/temp-$basename.docx\"; done",
+    "install:deps": "pip3 install python-docx",
+    "test:pandoc": "pandoc --version"
   },
   "dependencies": {
     "fs-extra": "^11.2.0",

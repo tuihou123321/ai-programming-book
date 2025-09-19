@@ -180,3 +180,109 @@ graph TD
 - 📄 **文档分发**：一个文件包含所有内容，便于分享
 - 🔍 **全文搜索**：在单个文件中快速查找内容
 - 📋 **版本管理**：创建特定时间点的完整快照
+
+## 📝 Markdown转Word格式
+
+本项目提供了强大的Markdown到Word文档转换功能，支持完全符合中文排版要求的样式转换。
+
+### 🎯 样式规范
+
+自动转换的样式完全符合中文出版标准：
+
+| 元素 | 字体 | 字号 | 样式 | 说明 |
+|------|------|------|------|------|
+| **一级标题** | 宋体 | 小二(18pt) | 加粗 | 章节标题 |
+| **二级标题** | 黑体 | 小三(15pt) | 正常 | 节标题 |
+| **三级标题** | 黑体 | 小四(12pt) | 正常 | 小节标题 |
+| **正文** | 宋体 | 10pt | 正常 | 段落内容 |
+| **代码块** | Courier New | 小五(9pt) | 正常 | ```代码块``` |
+| **行内代码** | Courier New | 小五(9pt) | 正常 | `行内代码` |
+| **引用提示** | 黑体 | 五号(9pt) | 正常 | > 引用块 |
+
+### 🚀 快速开始
+
+#### 1. 安装依赖
+```bash
+# 安装Python依赖（只需执行一次）
+npm run install:deps
+```
+
+#### 2. 转换文档
+```bash
+# 转换测试文档（推荐先测试）
+npm run convert:test
+
+# 转换第一个章节文档
+npm run convert:styled
+
+# 批量转换所有章节
+npm run convert:all-styled
+```
+
+#### 3. 查看结果
+- 转换后的文档保存在 `output/` 目录
+- 文件名格式：`[原文件名]-styled.docx`
+- 样式完全符合WPS、Word等办公软件要求
+
+### 🔧 可用命令
+
+| 命令 | 功能 | 输出文件 |
+|------|------|----------|
+| `npm run install:deps` | 安装Python依赖 | - |
+| `npm run convert:test` | 转换测试文档 | `output/样式测试文档-styled.docx` |
+| `npm run convert:styled` | 转换第一个章节 | `output/01.1-什么是AI编程-styled.docx` |
+| `npm run convert:all-styled` | 批量转换所有章节 | `output/[章节名]-styled.docx` |
+| `npm run verify:styles` | 验证转换后的样式 | 控制台输出 |
+| `npm run debug:styles` | 调试样式信息 | 控制台输出 |
+
+### 🛠️ 技术实现
+
+#### 转换流程
+1. **Pandoc转换**：MD → DOCX基础转换
+2. **Python样式修复**：应用中文字体和字号要求
+3. **自动清理**：删除临时文件
+
+#### 核心文件
+- `fix-docx-styles.py`：样式修复核心脚本
+- `debug-docx-styles.py`：样式调试工具
+- `create-reference-doc.md`：样式测试模板
+
+### ✨ 功能特点
+
+- ✅ **完美支持中文**：自动设置宋体、黑体等中文字体
+- ✅ **精确字号控制**：小二、小三、小四等传统字号
+- ✅ **代码样式优化**：Courier New等编程字体
+- ✅ **WPS完美兼容**：支持WPS Office、Microsoft Word
+- ✅ **批量处理**：一键转换所有章节文档
+- ✅ **样式验证**：提供调试工具检查转换效果
+
+### 📋 使用注意事项
+
+#### 环境要求
+- 需要安装 [Pandoc](https://pandoc.org/installing.html)
+- Python 3.x 环境
+- python-docx 库（通过 npm run install:deps 自动安装）
+
+#### 字体要求
+- 确保系统安装了宋体、黑体字体
+- Windows/Mac/Linux 都有对应的中文字体支持
+
+#### 文件路径
+- 图片路径需要相对于MD文件位置
+- 建议将图片放在对应的 `.assets` 文件夹中
+
+### 🔍 故障排除
+
+#### 常见问题
+1. **样式不正确**：运行 `npm run verify:styles` 检查转换效果
+2. **缺少依赖**：运行 `npm run install:deps` 重新安装
+3. **Pandoc未安装**：运行 `npm run test:pandoc` 检查安装状态
+
+#### 调试方法
+```bash
+# 查看原始Pandoc生成的样式
+npm run debug:styles
+
+# 查看修复后的样式效果
+npm run verify:styles
+```
