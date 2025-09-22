@@ -12,8 +12,21 @@
       "Bash(npm run start:*)",
       "Bash(mkdir:*)",
       "Bash(mv:*)",
-      "Bash(true)"
+      "Bash(true)",
+      "Bash(git commit:*)",
+      "Bash(npm run convert:docx:*)",
+      "Bash(npm run test:pandoc:*)",
+      "Bash(pandoc:*)",
+      "Bash(npm run install:deps:*)",
+      "Bash(npm run convert:styled:*)",
+      "Bash(npm run convert:test:*)",
+      "Bash(npm run debug:styles:*)",
+      "Bash(npm run verify:styles:*)",
+      "Bash(python3:*)",
+      "Bash(npm run convert:codebuddy:*)",
+      "Bash(node:*)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   }
 }

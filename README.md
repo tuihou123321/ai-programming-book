@@ -64,10 +64,10 @@
 ```
 📁 AI编程书籍/
 ├── 📄 README.md                    # 项目介绍
-├── 📄 AI编程书籍大纲.md             # 完整目录大纲
+├── 📄 book-outline.md               # 完整目录大纲
 ├── 📄 package.json                # 项目配置文件
 ├── 📄 build-book.js               # 书籍合并脚本
-├── 📄 AI编程完整书籍.md            # 生成的完整书籍文件
+├── 📄 complete-book.md              # 生成的完整书籍文件
 ├── 📁 chapters/                   # 所有书籍章节文件
 │   ├── 📄 01-第1章：AI编程重塑程序员工作.md
 │   ├── 📄 01.1-什么是AI编程.md
@@ -146,7 +146,7 @@ graph TD
    ```
 
 3. **查看结果**
-   - 生成的文件：`AI编程完整书籍.md`
+   - 生成的文件：`complete-book.md`
    - 包含完整目录索引和所有章节内容
    - 自动排序并添加章节分隔
 
@@ -164,7 +164,7 @@ graph TD
 - **chapters/**：存放所有书籍章节文件
 - **build-book.js**：合并脚本，负责读取、排序、合并章节
 - **package.json**：项目配置，定义依赖和脚本命令
-- **AI编程完整书籍.md**：生成的完整书籍文件
+- **complete-book.md**：生成的完整书籍文件
 
 ### 🛠️ 自定义配置
 
@@ -245,7 +245,7 @@ npm run convert:all-styled
 #### 核心文件
 - `fix-docx-styles.py`：样式修复核心脚本
 - `debug-docx-styles.py`：样式调试工具
-- `create-reference-doc.md`：样式测试模板
+- `style-test-template.md`：样式测试模板
 
 ### ✨ 功能特点
 
@@ -286,3 +286,5 @@ npm run debug:styles
 # 查看修复后的样式效果
 npm run verify:styles
 ```
+
+.

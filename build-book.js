@@ -5,7 +5,7 @@ class BookBuilder {
     constructor() {
         this.bookFiles = [];
         this.excludeFiles = [
-            'AI编程书籍大纲.md',
+            'book-outline.md',
             'README.md',
             'package.json',
             'build-book.js',
@@ -16,7 +16,7 @@ class BookBuilder {
             'claude code基本介绍.md',
             '智能AI编程效率提升利器.md'
         ];
-        this.outputFile = 'AI编程完整书籍.md';
+        this.outputFile = 'complete-book.md';
     }
 
     async scanFiles() {

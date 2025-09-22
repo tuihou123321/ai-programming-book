@@ -53,6 +53,7 @@ def fix_docx_styles(input_file, output_file):
                     
             else:
                 # 处理正文和行内代码
+                is_normal_paragraph = True
                 for run in paragraph.runs:
                     # 检查run的样式，寻找行内代码
                     run_style = None
@@ -72,6 +73,7 @@ def fix_docx_styles(input_file, output_file):
                     elif not run.font.name or run.font.name == 'Calibri':
                         # 正文：宋体、10号
                         set_font(run, '宋体', 10, False)
+                
         
         # 处理表格
         for table in doc.tables:
