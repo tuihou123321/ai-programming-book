@@ -6,7 +6,7 @@
 
 import sys
 from docx import Document
-from docx.shared import Pt
+from docx.shared import Pt, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 
@@ -23,8 +23,24 @@ def fix_docx_styles(input_file, output_file):
             run.font.size = Pt(size_pt)
             run.font.bold = bold
         
+        def is_drawing_run(run):
+            """检测 run 是否包含图片/绘图内容，避免误改样式导致资源丢失"""
+            if not hasattr(run, '_element'):
+                return False
+            drawing = run._element.find('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}drawing')
+            pict = run._element.find('.//{urn:schemas-microsoft-com:vml}imageData')
+            return drawing is not None or pict is not None
+
         # 遍历所有段落
         for paragraph in doc.paragraphs:
+            # 检查段落文本是否包含图标题（居中）
+            paragraph_text = paragraph.text.strip()
+            if paragraph_text.startswith('图') and ('.' in paragraph_text):
+                # 图标题：居中对齐，小五(9pt)，宋体
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                for run in paragraph.runs:
+                    set_font(run, '宋体', 9, False)
+                continue
             # 根据样式设置字体
             if paragraph.style.name.startswith('Heading 1'):
                 # 一级标题：小二(18pt)、宋体、加粗
@@ -32,7 +48,8 @@ def fix_docx_styles(input_file, output_file):
                     set_font(run, '宋体', 18, True)
                     
             elif paragraph.style.name.startswith('Heading 2'):
-                # 二级标题：小三(15pt)、黑体（不加粗）
+                # 二级标题：小三(15pt)、黑体（不加粗）、居中
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 for run in paragraph.runs:
                     set_font(run, '黑体', 15, False)
                     
@@ -49,12 +66,22 @@ def fix_docx_styles(input_file, output_file):
             elif paragraph.style.name == 'Block Text':
                 # 引用块（提示）：黑体、五号(9pt)
                 for run in paragraph.runs:
+                    if is_drawing_run(run):
+                        continue
                     set_font(run, '黑体', 9, False)
                     
             else:
                 # 处理正文和行内代码
+                # 检查是否为正文段落，如果是则添加首行缩进
+                if paragraph.style.name == 'Normal' or paragraph.style.name == 'Body Text':
+                    # 设置首行缩进为两个汉字的距离（24pt）
+                    paragraph.paragraph_format.first_line_indent = Pt(24)
+
                 is_normal_paragraph = True
                 for run in paragraph.runs:
+                    if is_drawing_run(run):
+                        # 图片 run 不需要改字体，否则可能导致资源引用异常
+                        continue
                     # 检查run的样式，寻找行内代码
                     run_style = None
                     try:
@@ -73,7 +100,7 @@ def fix_docx_styles(input_file, output_file):
                     elif not run.font.name or run.font.name == 'Calibri':
                         # 正文：宋体、10号
                         set_font(run, '宋体', 10, False)
-                
+
         
         # 处理表格
         for table in doc.tables:
@@ -81,6 +108,8 @@ def fix_docx_styles(input_file, output_file):
                 for cell in row.cells:
                     for paragraph in cell.paragraphs:
                         for run in paragraph.runs:
+                            if is_drawing_run(run):
+                                continue
                             set_font(run, '宋体', 10, False)
         
         # 保存修改后的文档

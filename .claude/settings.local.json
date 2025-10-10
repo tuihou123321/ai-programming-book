@@ -24,7 +24,9 @@
       "Bash(npm run verify:styles:*)",
       "Bash(python3:*)",
       "Bash(npm run convert:codebuddy:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(ls:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
